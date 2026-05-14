@@ -37,5 +37,9 @@
   }
 
   // Wait for the default model load before booting so the first render has data.
-  window.EM.defaultModelPromise.then(boot);
+  window.EM.defaultModelPromise.then(() => {
+    const def = (typeof window.defaultSample === 'function') ? window.defaultSample() : null;
+    if (def) window.STORE.setSample(def);
+    boot();
+  });
 })();

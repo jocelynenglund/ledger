@@ -7,6 +7,7 @@
     model: window.EM.getModel(),
     activeIndex: 0,
     hiddenLanes: new Set(),
+    currentSample: null,   // null = custom upload or empty; else a SAMPLES entry
   };
 
   function publish() {
@@ -37,11 +38,17 @@
     publish();
   });
 
+  function setSample(sample) {
+    state.currentSample = sample || null;
+    publish();
+  }
+
   window.STORE = {
     get: () => state,
     subscribe(fn) { listeners.add(fn); fn(state); return () => listeners.delete(fn); },
     setActive,
     toggleLane,
     isHidden: (lane) => state.hiddenLanes.has(lane),
+    setSample,
   };
 })();

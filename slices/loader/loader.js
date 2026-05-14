@@ -17,11 +17,15 @@
     });
     document.body.appendChild(fileInput);
 
+    const visibleSamples = (window.SAMPLES || []).filter(s => s.visible);
+    const sampleRows = visibleSamples.map(s =>
+      rowBtn('Sample · ' + s.label, () => loadSampleAndClose(s))
+    );
+
     const panel = h('div', { class: 'em-settings-panel', role: 'menu' },
       section('Load',
         rowBtn('Load JSON from disk…', () => fileInput.click()),
-        rowBtn('Sample · Cart Shop', () => loadSampleAndClose('assets/sample.json', 'Cart Shop')),
-        rowBtn('Sample · Registration', () => loadSampleAndClose('assets/registration.json', 'Registration')),
+        ...sampleRows,
       ),
       section('About',
         h('p', { class: 'em-settings-about' },
@@ -64,8 +68,8 @@
       if (e.key === 'Escape') close();
     }
 
-    async function loadSampleAndClose(url, label) {
-      await loadSample(url, label);
+    async function loadSampleAndClose(sample) {
+      await loadSample(sample);
       close();
     }
 
@@ -101,6 +105,7 @@
     try {
       const text = await f.text();
       await window.EM.loadJson(text);
+      window.STORE.setSample(null);   // custom upload — no source link
       flashToast('Loaded ' + f.name);
     } catch (e) {
       console.error('[loader] failed to parse JSON:', e);
@@ -108,15 +113,16 @@
     }
   }
 
-  async function loadSample(url, label) {
+  async function loadSample(sample) {
     try {
-      const r = await fetch(url);
+      const r = await fetch(sample.jsonUrl);
       const text = await r.text();
       await window.EM.loadJson(text);
-      flashToast('Loaded ' + label);
+      window.STORE.setSample(sample);
+      flashToast('Loaded ' + sample.label);
     } catch (e) {
       console.error(e);
-      flashToast('Failed to load ' + label, true);
+      flashToast('Failed to load ' + sample.label, true);
     }
   }
 

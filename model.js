@@ -385,10 +385,14 @@
     return CURRENT;
   }
 
-  const defaultModelPromise = fetch('assets/registration.json')
-    .then(r => r.text())
-    .then(loadJson)
-    .catch(err => { console.error('Failed to load default config:', err); });
+  // Default model is determined by samples.js (the entry marked `default`).
+  // We expose a promise app.js awaits before booting; if no default exists
+  // (e.g. all samples hidden) we resolve so the UI still mounts with no model.
+  const def = (typeof window.defaultSample === 'function') ? window.defaultSample() : null;
+  const defaultModelPromise = def
+    ? fetch(def.jsonUrl).then(r => r.text()).then(loadJson)
+        .catch(err => { console.error('Failed to load default sample:', err); })
+    : Promise.resolve();
 
   function installDropZone() {
     const overlay = document.createElement('div');

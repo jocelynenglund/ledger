@@ -9,9 +9,10 @@
     let lastModel = null;
     let lastActive = -1;
     let lastHidden = null;
+    let lastSample;
 
     function render(state) {
-      const { model, activeIndex, hiddenLanes } = state;
+      const { model, activeIndex, hiddenLanes, currentSample } = state;
 
       if (!model) {
         clear(root);
@@ -23,12 +24,22 @@
       // Full rebuild when model changes (lanes / counts / titles all swap).
       if (model !== lastModel) {
         clear(root);
-        root.appendChild(buildHeader(model));
+        root.appendChild(buildHeader(model, currentSample));
         root.appendChild(buildControls(model));
         root.appendChild(h('div', { class: 'em-chrome-body', id: 'chrome-body-slot' }));
         lastModel = model;
         lastActive = -1;
         lastHidden = null;
+        lastSample = currentSample;
+      }
+
+      // Source link reflects currentSample even if model object didn't swap
+      if (currentSample !== lastSample) {
+        const wrap = root.querySelector('.em-chrome-titlewrap');
+        const old = wrap?.querySelector('.em-chrome-source');
+        if (old) old.remove();
+        if (currentSample && wrap) wrap.appendChild(buildSourceRow(currentSample));
+        lastSample = currentSample;
       }
 
       // Partial: active-slice metadata in header
@@ -59,7 +70,7 @@
       }
     }
 
-    function buildHeader(model) {
+    function buildHeader(model, currentSample) {
       return h('div', { class: 'em-chrome-head' },
         h('div', { class: 'em-chrome-titlewrap' },
           h('div', { class: 'em-chrome-eyebrow' },
@@ -69,10 +80,23 @@
           ),
           h('h2', { class: 'em-chrome-title' }, 'Read-through'),
           h('div', { class: 'em-chrome-sub' }, 'The model as a numbered document. Sidebar at the left lists chapters — click any heading to jump.'),
+          currentSample ? buildSourceRow(currentSample) : null,
         ),
         h('div', { class: 'em-chrome-meta' },
           h('span', { class: 'em-chrome-count' }, '01 / ' + String(model.slices.length).padStart(2, '0')),
           h('span', { class: 'em-chrome-slicename' }, model.slices[0]?.title || '—'),
+        ),
+      );
+    }
+
+    function buildSourceRow(sample) {
+      return h('div', { class: 'em-chrome-source' },
+        h('span', { class: 'em-chrome-source-label' }, 'source'),
+        h('a', {
+          class: 'em-chrome-source-link',
+          href: sample.sourceUrl, target: '_blank', rel: 'noopener',
+        }, sample.sourceLabel || sample.sourceUrl,
+          h('span', { class: 'em-chrome-source-arrow' }, ' ↗'),
         ),
       );
     }
