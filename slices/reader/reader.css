@@ -58,24 +58,28 @@
   }
   /* TOC and reader stack vertically; TOC self-collapses via toc.css */
   .dir-d-toc-mount { min-height: auto; }
-  .dir-d-doc { padding: 14px 12px 64px; }
+  .dir-d-doc { padding: 12px 8px 56px; }
   .dir-d-section-title { font-size: 26px; }
   .dir-d-title { font-size: 21px; }
   .dir-d-sentence { font-size: 15px; }
 
   /* Drop the side-gutter number on mobile: put the slice number inline
-     above the title instead. Saves ~40px of fixed left offset. */
+     above the title instead. Title and body sit flush with the number
+     above, no left indent. */
   .dir-d-chapter {
     grid-template-columns: 1fr;
-    gap: 4px;
-    padding: 18px 0;
+    gap: 2px;
+    padding: 16px 0;
   }
   .dir-d-num {
     flex-direction: row;
     align-items: baseline;
-    gap: 8px;
+    gap: 6px;
     padding-top: 0;
   }
-  .dir-d-num-n { font-size: 18px; }
+  .dir-d-num-n { font-size: 14px; color: var(--ink-3); }
   .dir-d-num-rule { display: none; }
+
+  /* Element rows: shrink the left bar accent so content is closer to edge */
+  .dir-d-elrow { padding: 6px 8px; }
 }
