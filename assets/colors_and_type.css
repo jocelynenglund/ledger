@@ -1,0 +1,161 @@
+/* =========================================================================
+   ItsyBit — Foundations
+   Colors & Type tokens. Import this first; everything else builds on it.
+   ========================================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&family=Geist:wght@300..700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  --paper:        #efe9dc;
+  --paper-2:      #e6dfcd;
+  --paper-3:      #d8d0bb;
+  --paper-edge:   #b8ad94;
+
+  --ink:          #1c1814;
+  --ink-2:        #4a4238;
+  --ink-3:        #7a7060;
+  --ink-4:        #a39a86;
+
+  --sun:          #f4c542;
+  --sun-deep:     #d9a823;
+  --sun-soft:     #f7dd86;
+
+  --rust:         #c45230;
+  --rust-deep:    #9b3a1d;
+  --rust-soft:    #e4a48d;
+
+  --sage:         #5a7058;
+  --sage-deep:    #3f5240;
+  --sage-soft:    #b1c2a8;
+
+  --sky:          #6b8aa6;
+  --sky-deep:     #3d5b78;
+
+  --bg:           var(--paper);
+  --bg-sunk:      var(--paper-2);
+  --bg-raised:    #f6f1e4;
+  --fg:           var(--ink);
+  --fg-2:         var(--ink-2);
+  --fg-3:         var(--ink-3);
+  --fg-mute:      var(--ink-4);
+  --border:       var(--paper-3);
+  --border-strong:var(--paper-edge);
+  --rule:         #c5b99e;
+
+  --brand:        var(--sun);
+  --brand-fg:     var(--ink);
+  --link:         var(--rust-deep);
+  --focus-ring:   #3f5b78;
+
+  --success:      var(--sage-deep);
+  --warning:      var(--sun-deep);
+  --danger:       var(--rust);
+
+  --font-display: 'Newsreader', 'Iowan Old Style', Georgia, serif;
+  --font-body:    'Geist', 'Inter Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  --text-xs:    12px;
+  --text-sm:    14px;
+  --text-base:  16px;
+  --text-md:    18px;
+  --text-lg:    21px;
+  --text-xl:    26px;
+  --text-2xl:   33px;
+  --text-3xl:   42px;
+  --text-4xl:   54px;
+  --text-5xl:   72px;
+  --text-6xl:   96px;
+
+  --lh-tight:   1.1;
+  --lh-snug:    1.25;
+  --lh-body:    1.55;
+  --lh-relaxed: 1.7;
+
+  --tracking-tight:   -0.02em;
+  --tracking-normal:  0;
+  --tracking-wide:    0.02em;
+  --tracking-mono:    0.04em;
+
+  --s-1:  4px;
+  --s-2:  8px;
+  --s-3:  12px;
+  --s-4:  16px;
+  --s-5:  20px;
+  --s-6:  24px;
+  --s-8:  32px;
+  --s-10: 40px;
+  --s-12: 48px;
+  --s-16: 64px;
+  --s-20: 80px;
+  --s-24: 96px;
+
+  --r-0:  0;
+  --r-1:  2px;
+  --r-2:  4px;
+  --r-3:  6px;
+  --r-4:  10px;
+  --r-pill: 999px;
+
+  --shadow-sm:    0 1px 0 rgba(28, 24, 20, 0.06), 0 1px 2px rgba(28, 24, 20, 0.04);
+  --shadow-md:    0 2px 0 rgba(28, 24, 20, 0.05), 0 6px 14px -6px rgba(28, 24, 20, 0.18);
+  --shadow-lg:    0 3px 0 rgba(28, 24, 20, 0.05), 0 16px 30px -12px rgba(28, 24, 20, 0.22);
+
+  --press:        0 1px 0 var(--paper-edge), 0 2px 0 rgba(28, 24, 20, 0.04);
+  --press-deep:   0 2px 0 var(--ink), 0 3px 0 rgba(28, 24, 20, 0.04);
+
+  --inset-well:   inset 0 1px 2px rgba(28, 24, 20, 0.08);
+
+  --ease-out:   cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-in:    cubic-bezier(0.55, 0.06, 0.68, 0.19);
+  --ease-snap:  cubic-bezier(0.4, 0.0, 0.2, 1);
+
+  --dur-1: 90ms;
+  --dur-2: 160ms;
+  --dur-3: 240ms;
+  --dur-4: 380ms;
+
+  --measure:  62ch;
+  --col-narrow: 560px;
+  --col-text:   720px;
+  --col-wide:   960px;
+  --col-max:   1180px;
+}
+
+html {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  color: var(--fg);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-family: var(--font-body);
+  line-height: var(--lh-body);
+  color: var(--fg);
+  background: var(--bg);
+  margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  color: var(--fg);
+  letter-spacing: var(--tracking-tight);
+  line-height: var(--lh-tight);
+  margin: 0 0 var(--s-4) 0;
+  text-wrap: balance;
+}
+
+::selection {
+  background: var(--sun);
+  color: var(--ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+  border-radius: var(--r-2);
+}

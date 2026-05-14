@@ -1,0 +1,6 @@
+.DS_Store
+node_modules/
+*.log
+
+# Local-only test imports
+assets/user-config.json

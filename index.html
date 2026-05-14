@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Event model — read-through</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <link rel="stylesheet" href="assets/colors_and_type.css" />
+  <link rel="stylesheet" href="slices/chrome/chrome.css" />
+  <link rel="stylesheet" href="slices/toc/toc.css" />
+  <link rel="stylesheet" href="slices/reader/reader.css" />
+  <link rel="stylesheet" href="slices/slice-card/slice-card.css" />
+  <link rel="stylesheet" href="slices/element-row/element-row.css" />
+  <link rel="stylesheet" href="slices/spec-card/spec-card.css" />
+  <link rel="stylesheet" href="slices/loader/loader.css" />
+
+  <style>
+    html, body { height: 100%; margin: 0; }
+    body { background: #d6cdb7; font-family: var(--font-body); }
+    #root {
+      position: fixed; inset: 56px 16px 16px 16px;
+      border-radius: 10px; overflow: hidden;
+      border: 1px solid var(--ink);
+      box-shadow: var(--shadow-lg);
+    }
+  </style>
+</head>
+<body>
+  <script src="model.js"></script>
+  <script src="dom.js"></script>
+  <script src="store.js"></script>
+
+  <script src="slices/element-row/element-row.js"></script>
+  <script src="slices/spec-card/spec-card.js"></script>
+  <script src="slices/slice-card/slice-card.js"></script>
+  <script src="slices/reader/reader.js"></script>
+  <script src="slices/toc/toc.js"></script>
+  <script src="slices/chrome/chrome.js"></script>
+  <script src="slices/loader/loader.js"></script>
+
+  <div id="root"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

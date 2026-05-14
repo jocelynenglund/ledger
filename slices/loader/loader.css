@@ -1,0 +1,72 @@
+/* loader — top-left bar with sample + file picker buttons */
+.em-loader-bar {
+  position: fixed; top: 14px; left: 16px; z-index: 50;
+  display: flex; align-items: center; gap: 10px;
+  background: var(--paper);
+  border: 1px solid var(--ink);
+  border-radius: var(--r-3);
+  padding: 6px 12px;
+  box-shadow: var(--shadow-md);
+  font-family: var(--font-body);
+}
+.em-loader-bar .em-mark {
+  width: 24px; height: 24px;
+  background: var(--ink); color: var(--paper);
+  border-radius: var(--r-2);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); font-style: italic;
+  font-size: 15px; line-height: 1;
+}
+.em-loader-bar-title {
+  font-family: var(--font-mono); font-size: 10px;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3);
+}
+.em-loader-actions { display: flex; gap: 6px; margin-left: 4px; padding-left: 10px; border-left: 1px solid var(--border); }
+.em-link-btn {
+  font-family: var(--font-mono); font-size: 11px;
+  letter-spacing: 0.04em;
+  border: 1px solid var(--border-strong);
+  background: var(--paper); color: var(--ink);
+  padding: 6px 10px;
+  border-radius: var(--r-2);
+  cursor: pointer;
+  box-shadow: 0 1px 0 var(--paper-edge);
+}
+.em-link-btn:hover { background: var(--paper-2); }
+.em-link-btn:active { transform: translateY(1px); box-shadow: none; }
+
+/* drop overlay + toast (used by model.js) */
+.em-drop-overlay {
+  position: fixed; inset: 0; z-index: 9999;
+  pointer-events: none;
+  background: rgba(28, 24, 20, 0.32);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; transition: opacity 160ms var(--ease-out);
+}
+.em-drop-overlay.is-active { opacity: 1; pointer-events: all; }
+.em-drop-card {
+  background: var(--paper); border: 1px solid var(--ink);
+  border-radius: var(--r-4);
+  padding: 36px 56px; text-align: center;
+  box-shadow: var(--shadow-lg);
+  transform: translateY(8px);
+  transition: transform 160ms var(--ease-out);
+}
+.em-drop-overlay.is-active .em-drop-card { transform: translateY(0); }
+.em-drop-icon { font-size: 48px; font-family: var(--font-display); color: var(--sun-deep); margin-bottom: 8px; }
+.em-drop-title { font-family: var(--font-display); font-size: 26px; color: var(--ink); letter-spacing: -0.015em; margin-bottom: 4px; }
+.em-drop-sub { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-3); }
+
+.em-toast {
+  position: fixed; bottom: 22px; left: 50%;
+  transform: translate(-50%, 8px); opacity: 0;
+  background: var(--ink); color: var(--paper);
+  padding: 10px 16px; border-radius: var(--r-3);
+  font-family: var(--font-mono); font-size: 12px;
+  letter-spacing: 0.04em; text-transform: uppercase;
+  z-index: 10000;
+  transition: transform 200ms var(--ease-out), opacity 200ms var(--ease-out);
+  box-shadow: var(--shadow-lg);
+}
+.em-toast.is-in { transform: translate(-50%, 0); opacity: 1; }
+.em-toast.is-error { background: var(--rust-deep); }

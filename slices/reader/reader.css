@@ -1,0 +1,51 @@
+/* reader — scrollable document body with chapter sections */
+.dir-d-scroll {
+  width: 100%; height: 100%;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+.dir-d-doc {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 32px 48px 80px;
+}
+.dir-d-section { margin-bottom: 32px; }
+.dir-d-section:first-child { margin-top: 0; }
+.dir-d-section-head {
+  padding: 18px 0 16px;
+  border-bottom: 1px solid var(--ink);
+  margin-bottom: 8px;
+}
+.dir-d-section-eyebrow {
+  display: flex; align-items: baseline; gap: 8px;
+  font-family: var(--font-mono); font-size: 10px;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3);
+  margin-bottom: 4px;
+}
+.dir-d-section-roman {
+  font-family: var(--font-display); font-style: italic;
+  font-size: 14px; color: var(--ink); letter-spacing: 0.04em;
+}
+.dir-d-section-title {
+  font-family: var(--font-display);
+  font-size: 38px; letter-spacing: -0.025em;
+  margin: 0; font-weight: 500; color: var(--ink);
+}
+
+/* Shell that combines toc + reader inside chrome body */
+.dir-d-shell {
+  width: 100%; height: 100%;
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  min-height: 0;
+}
+.dir-d-shell.no-toc { grid-template-columns: 1fr; }
+.dir-d-shell.no-toc .dir-d-toc-mount { display: none; }
+
+.dir-d-toc-mount,
+.dir-d-reader-mount {
+  height: 100%; min-height: 0; min-width: 0;
+  display: flex; flex-direction: column;
+}
+.dir-d-toc-mount > .dir-d-toc { flex: 1; min-height: 0; }
+.dir-d-reader-mount > .dir-d-scroll { flex: 1; min-height: 0; }

@@ -1,0 +1,37 @@
+name: Deploy to FTP
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Inject cache-bust version into HTML
+        run: |
+          VERSION="${GITHUB_SHA::7}"
+          echo "Cache-busting with v=${VERSION}"
+          find . -name "*.html" -not -path "./.git/*" -print0 \
+            | xargs -0 sed -i -E \
+              -e "s#(href=\"[^\"]+\\.css)\"#\\1?v=${VERSION}\"#g" \
+              -e "s#(src=\"[^\"]+\\.js)\"#\\1?v=${VERSION}\"#g"
+
+      - name: Deploy to FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: /ledger/
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/.github/**
+            README.md
+            assets/user-config.json
