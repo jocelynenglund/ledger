@@ -50,6 +50,13 @@
         if (count) count.textContent = String(activeIndex + 1).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
         if (name) name.textContent = model.slices[activeIndex]?.title || '—';
 
+        // Reflect the active slice's chapter in the eyebrow
+        const chapterEl = root.querySelector('.em-chrome-eyebrow-chapter');
+        if (chapterEl) {
+          const activeChapter = model.chapters?.find(c => c.sliceIndices.includes(activeIndex));
+          chapterEl.textContent = activeChapter?.name || model.chapter || '';
+        }
+
         const range = root.querySelector('.em-scrub input[type=range]');
         if (range) range.value = String(activeIndex);
 
@@ -71,12 +78,13 @@
     }
 
     function buildHeader(model, currentSample) {
+      const firstChapter = model.chapters?.[0]?.name || model.chapter || '';
       return h('div', { class: 'em-chrome-head' },
         h('div', { class: 'em-chrome-titlewrap' },
           h('div', { class: 'em-chrome-eyebrow' },
             h('span', {}, model.context || ''),
-            model.chapter ? h('span', { class: 'em-dot' }, '·') : null,
-            model.chapter ? h('span', {}, model.chapter) : null,
+            firstChapter ? h('span', { class: 'em-dot' }, '·') : null,
+            firstChapter ? h('span', { class: 'em-chrome-eyebrow-chapter' }, firstChapter) : null,
           ),
           h('h2', { class: 'em-chrome-title' }, 'Read-through'),
           h('div', { class: 'em-chrome-sub' }, 'The model as a numbered document. Sidebar at the left lists chapters — click any heading to jump.'),
