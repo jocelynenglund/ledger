@@ -16,7 +16,9 @@
   transition: background 120ms var(--ease-out), transform 240ms var(--ease-out);
 }
 .em-settings-cog:hover { background: var(--paper-2); }
-.em-settings-bar.is-open .em-settings-cog { transform: rotate(30deg); }
+/* Rotate the icon, not the button, so the rounded square doesn't tilt */
+.em-settings-cog svg { transition: transform 240ms var(--ease-out); }
+.em-settings-bar.is-open .em-settings-cog svg { transform: rotate(60deg); }
 
 .em-settings-panel {
   position: absolute; top: calc(100% + 8px); right: 0;
