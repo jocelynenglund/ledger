@@ -58,7 +58,7 @@
   }
   /* TOC and reader stack vertically; TOC self-collapses via toc.css */
   .dir-d-toc-mount { min-height: auto; }
-  .dir-d-doc { padding: 10px 4px 56px; }
+  .dir-d-doc { padding: 12px 14px 56px; }
   .dir-d-section-title { font-size: 26px; }
 }
 /* NOTE: chapter / num / title / element-row mobile rules live colocated
