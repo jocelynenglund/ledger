@@ -32,3 +32,10 @@
 .dir-d-elrow-fields li { display: inline-flex; gap: 4px; align-items: baseline; }
 .dir-d-fname { color: var(--ink); }
 .dir-d-ftype { color: var(--ink-3); font-size: 9px; }
+
+/* ============ Mobile (≤700px) ============ */
+@media (max-width: 700px) {
+  .dir-d-elrow { padding: 6px 6px 6px 8px; border-left-width: 2px; }
+  .dir-d-elrow-title { font-size: 14px; }
+  .dir-d-elrow-fields { font-size: 10px; }
+}

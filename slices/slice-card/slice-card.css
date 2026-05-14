@@ -45,3 +45,25 @@
 }
 .dir-d-elements { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
 .dir-d-specs { margin-top: 8px; display: flex; flex-direction: column; gap: 6px; }
+
+/* ============ Mobile (≤700px) ============ */
+@media (max-width: 700px) {
+  /* Drop the side-gutter number column; render number inline as a small
+     meta tag above the title. Content sits flush with the doc edge. */
+  .dir-d-chapter {
+    grid-template-columns: 1fr;
+    gap: 2px;
+    padding: 16px 0;
+  }
+  .dir-d-num {
+    flex-direction: row;
+    align-items: baseline;
+    gap: 6px;
+    padding-top: 0;
+  }
+  .dir-d-num-n { font-size: 14px; color: var(--ink-3); }
+  .dir-d-num-rule { display: none; }
+
+  .dir-d-title { font-size: 21px; }
+  .dir-d-sentence { font-size: 15px; }
+}

@@ -44,3 +44,10 @@
   font-family: var(--font-display); font-style: italic;
   font-size: 14px; color: var(--rust-deep);
 }
+
+/* ============ Mobile (≤700px) ============ */
+@media (max-width: 700px) {
+  .dir-d-spec { padding: 8px 8px; }
+  .dir-d-spec-tag { width: 36px; }
+  .dir-d-specline-title { font-size: 12px; }
+}

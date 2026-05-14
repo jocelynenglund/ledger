@@ -60,29 +60,8 @@
   .dir-d-toc-mount { min-height: auto; }
   .dir-d-doc { padding: 10px 4px 56px; }
   .dir-d-section-title { font-size: 26px; }
-  .dir-d-title { font-size: 21px; }
-  .dir-d-sentence { font-size: 15px; }
-
-  /* Drop the side-gutter number on mobile: put the slice number inline
-     above the title instead. Title and body sit flush with the number
-     above, no left indent. */
-  .dir-d-chapter {
-    grid-template-columns: 1fr;
-    gap: 2px;
-    padding: 16px 0;
-  }
-  .dir-d-num {
-    flex-direction: row;
-    align-items: baseline;
-    gap: 6px;
-    padding-top: 0;
-  }
-  .dir-d-num-n { font-size: 14px; color: var(--ink-3); }
-  .dir-d-num-rule { display: none; }
-
-  /* Element rows: thin left accent, minimal left padding */
-  .dir-d-elrow { padding: 6px 6px 6px 8px; border-left-width: 2px; }
-  /* Spec cards: pull in too */
-  .dir-d-spec { padding: 8px 8px; }
-  .dir-d-spec-tag { width: 36px; }
 }
+/* NOTE: chapter / num / title / element-row mobile rules live colocated
+   inside slice-card.css and element-row.css respectively, because reader.css
+   loads before those files and a media query at this specificity loses to
+   the unscoped desktop rules that come later. Same with spec-card.css. */
