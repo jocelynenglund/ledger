@@ -58,7 +58,7 @@
   }
   /* TOC and reader stack vertically; TOC self-collapses via toc.css */
   .dir-d-toc-mount { min-height: auto; }
-  .dir-d-doc { padding: 12px 8px 56px; }
+  .dir-d-doc { padding: 10px 4px 56px; }
   .dir-d-section-title { font-size: 26px; }
   .dir-d-title { font-size: 21px; }
   .dir-d-sentence { font-size: 15px; }
@@ -80,6 +80,9 @@
   .dir-d-num-n { font-size: 14px; color: var(--ink-3); }
   .dir-d-num-rule { display: none; }
 
-  /* Element rows: shrink the left bar accent so content is closer to edge */
-  .dir-d-elrow { padding: 6px 8px; }
+  /* Element rows: thin left accent, minimal left padding */
+  .dir-d-elrow { padding: 6px 6px 6px 8px; border-left-width: 2px; }
+  /* Spec cards: pull in too */
+  .dir-d-spec { padding: 8px 8px; }
+  .dir-d-spec-tag { width: 36px; }
 }
