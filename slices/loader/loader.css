@@ -1,39 +1,79 @@
-/* loader — top-left bar with sample + file picker buttons */
-.em-loader-bar {
-  position: fixed; top: 14px; left: 16px; z-index: 50;
-  display: flex; align-items: center; gap: 10px;
+/* loader — settings cog (top-right) + dropdown panel */
+
+.em-settings-bar {
+  position: fixed; top: 14px; right: 16px; z-index: 50;
+}
+
+.em-settings-cog {
+  display: flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px;
+  background: var(--paper);
+  border: 1px solid var(--ink);
+  color: var(--ink);
+  border-radius: var(--r-3);
+  cursor: pointer;
+  box-shadow: var(--shadow-md);
+  transition: background 120ms var(--ease-out), transform 240ms var(--ease-out);
+}
+.em-settings-cog:hover { background: var(--paper-2); }
+.em-settings-bar.is-open .em-settings-cog { transform: rotate(30deg); }
+
+.em-settings-panel {
+  position: absolute; top: calc(100% + 8px); right: 0;
+  width: 280px;
   background: var(--paper);
   border: 1px solid var(--ink);
   border-radius: var(--r-3);
-  padding: 6px 12px;
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-lg);
+  padding: 6px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-4px);
+  transition: opacity 160ms var(--ease-out), transform 160ms var(--ease-out);
   font-family: var(--font-body);
 }
-.em-loader-bar .em-mark {
-  width: 24px; height: 24px;
-  background: var(--ink); color: var(--paper);
-  border-radius: var(--r-2);
-  display: flex; align-items: center; justify-content: center;
-  font-family: var(--font-display); font-style: italic;
-  font-size: 15px; line-height: 1;
+.em-settings-bar.is-open .em-settings-panel {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
 }
-.em-loader-bar-title {
-  font-family: var(--font-mono); font-size: 10px;
-  letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3);
+
+.em-settings-section { padding: 6px 4px; }
+.em-settings-section + .em-settings-section {
+  border-top: 1px solid var(--rule);
+  margin-top: 2px; padding-top: 10px;
 }
-.em-loader-actions { display: flex; gap: 6px; margin-left: 4px; padding-left: 10px; border-left: 1px solid var(--border); }
-.em-link-btn {
-  font-family: var(--font-mono); font-size: 11px;
-  letter-spacing: 0.04em;
-  border: 1px solid var(--border-strong);
-  background: var(--paper); color: var(--ink);
-  padding: 6px 10px;
+.em-settings-section-title {
+  font-family: var(--font-mono);
+  font-size: 9px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--ink-3);
+  padding: 0 8px 6px;
+}
+
+.em-settings-row {
+  display: block; width: 100%;
+  background: transparent; border: 0;
+  text-align: left;
+  font-family: var(--font-body); font-size: 13px; color: var(--ink);
+  padding: 7px 10px;
   border-radius: var(--r-2);
   cursor: pointer;
-  box-shadow: 0 1px 0 var(--paper-edge);
+  transition: background 120ms var(--ease-out);
 }
-.em-link-btn:hover { background: var(--paper-2); }
-.em-link-btn:active { transform: translateY(1px); box-shadow: none; }
+.em-settings-row:hover { background: var(--paper-2); }
+
+.em-settings-about {
+  font-family: var(--font-body); font-size: 12px;
+  color: var(--ink-2); line-height: 1.45;
+  margin: 0; padding: 0 10px 4px;
+}
+.em-settings-link {
+  color: var(--rust-deep);
+  text-decoration: underline;
+  text-decoration-color: var(--rust-soft);
+  text-underline-offset: 2px;
+}
+.em-settings-link:hover { text-decoration-color: var(--rust-deep); }
 
 /* drop overlay + toast (used by model.js) */
 .em-drop-overlay {

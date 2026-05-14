@@ -1,5 +1,9 @@
-// loader — top-left bar for loading a JSON model from disk or samples.
+// loader — settings affordance in the top-right corner. A small cog opens
+// a panel with: load json, sample swaps, and an about blurb pointing to
+// app.eventmodelers.de (where source models are authored).
 (function () {
+  const ABOUT_URL = 'https://app.eventmodelers.de';
+
   function mountLoader(host) {
     const fileInput = h('input', {
       type: 'file', accept: '.json,application/json',
@@ -8,31 +12,89 @@
         const f = e.target.files?.[0]; if (!f) return;
         await loadFile(f);
         e.target.value = '';
+        close();
       },
     });
     document.body.appendChild(fileInput);
 
-    const loadBtn = h('button', {
-      class: 'em-link-btn',
-      onclick: () => fileInput.click(),
-    }, 'load json');
-
-    const loadCart = h('button', {
-      class: 'em-link-btn',
-      onclick: () => loadSample('assets/sample.json', 'Cart Shop'),
-    }, 'cart shop');
-    const loadReg = h('button', {
-      class: 'em-link-btn',
-      onclick: () => loadSample('assets/registration.json', 'Registration'),
-    }, 'registration');
-
-    const bar = h('div', { class: 'em-loader-bar' },
-      h('div', { class: 'em-mark' }, 'ib'),
-      h('div', { class: 'em-loader-bar-title' }, 'event model · read-through'),
-      h('div', { class: 'em-loader-actions' }, loadBtn, loadCart, loadReg),
+    const panel = h('div', { class: 'em-settings-panel', role: 'menu' },
+      section('Load',
+        rowBtn('Load JSON from disk…', () => fileInput.click()),
+        rowBtn('Sample · Cart Shop', () => loadSampleAndClose('assets/sample.json', 'Cart Shop')),
+        rowBtn('Sample · Registration', () => loadSampleAndClose('assets/registration.json', 'Registration')),
+      ),
+      section('About',
+        h('p', { class: 'em-settings-about' },
+          'Ledger is a read-through viewer for event-model JSON. ',
+          'Source models are authored in ',
+          h('a', { href: ABOUT_URL, target: '_blank', rel: 'noopener', class: 'em-settings-link' }, 'app.eventmodelers.de'),
+          ' — export from there, then load here.',
+        ),
+      ),
     );
+
+    const cog = h('button', {
+      class: 'em-settings-cog',
+      title: 'Settings',
+      'aria-label': 'Settings',
+      onclick: (e) => { e.stopPropagation(); toggle(); },
+    }, cogIcon());
+
+    const bar = h('div', { class: 'em-settings-bar' }, cog, panel);
     host.appendChild(bar);
+
+    let isOpen = false;
+    function toggle() { isOpen ? close() : open(); }
+    function open() {
+      isOpen = true;
+      bar.classList.add('is-open');
+      setTimeout(() => document.addEventListener('click', onDocClick), 0);
+      document.addEventListener('keydown', onKey);
+    }
+    function close() {
+      isOpen = false;
+      bar.classList.remove('is-open');
+      document.removeEventListener('click', onDocClick);
+      document.removeEventListener('keydown', onKey);
+    }
+    function onDocClick(e) {
+      if (!bar.contains(e.target)) close();
+    }
+    function onKey(e) {
+      if (e.key === 'Escape') close();
+    }
+
+    async function loadSampleAndClose(url, label) {
+      await loadSample(url, label);
+      close();
+    }
+
     return bar;
+  }
+
+  function section(title, ...children) {
+    return h('div', { class: 'em-settings-section' },
+      h('div', { class: 'em-settings-section-title' }, title),
+      ...children,
+    );
+  }
+
+  function rowBtn(label, onclick) {
+    return h('button', { class: 'em-settings-row', role: 'menuitem', onclick }, label);
+  }
+
+  function cogIcon() {
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('width', '16'); svg.setAttribute('height', '16');
+    svg.setAttribute('viewBox', '0 0 24 24'); svg.setAttribute('fill', 'none');
+    svg.setAttribute('stroke', 'currentColor'); svg.setAttribute('stroke-width', '1.6');
+    svg.setAttribute('stroke-linecap', 'round'); svg.setAttribute('stroke-linejoin', 'round');
+    const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    c.setAttribute('cx', '12'); c.setAttribute('cy', '12'); c.setAttribute('r', '3');
+    const g = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    g.setAttribute('d', 'M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h0a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v0a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z');
+    svg.appendChild(g); svg.appendChild(c);
+    return svg;
   }
 
   async function loadFile(f) {
