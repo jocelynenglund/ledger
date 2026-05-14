@@ -110,3 +110,9 @@
 }
 .em-toast.is-in { transform: translate(-50%, 0); opacity: 1; }
 .em-toast.is-error { background: var(--rust-deep); }
+
+/* ============ Mobile (≤700px) ============ */
+@media (max-width: 700px) {
+  .em-settings-bar { top: 10px; right: 10px; }
+  .em-settings-panel { width: calc(100vw - 28px); max-width: 320px; }
+}

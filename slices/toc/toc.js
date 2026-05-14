@@ -33,6 +33,20 @@
           ? new Set([model.chapters[0].id])
           : new Set();
 
+        // Mobile-only toggle that collapses the entire TOC behind a header.
+        // Desktop CSS hides this and keeps the body open.
+        const mobileToggle = h('button', {
+          class: 'dir-d-toc-mobiletoggle',
+          'aria-label': 'Toggle contents',
+          onclick: () => root.classList.toggle('is-mobile-open'),
+        },
+          h('span', { class: 'dir-d-toc-mobiletoggle-label' }, 'Contents'),
+          h('span', { class: 'dir-d-toc-mobiletoggle-count' },
+            String(model.chapters.reduce((n, c) => n + c.sliceIndices.length, 0)) + ' slices'),
+          h('span', { class: 'dir-d-toc-mobiletoggle-chev' }, '▾'),
+        );
+        root.appendChild(mobileToggle);
+
         const head = h('div', { class: 'dir-d-toc-head' },
           h('div', { class: 'dir-d-toc-eyebrow' }, 'contents'),
           h('div', { class: 'dir-d-toc-headtools' },
@@ -75,6 +89,8 @@
           const idx = Number(btn.dataset.idx);
           btn.classList.toggle('is-current', idx === activeIndex);
         });
+        // Close the mobile drawer after navigating so the doc is visible
+        if (lastActive !== -1) root.classList.remove('is-mobile-open');
         lastActive = activeIndex;
       }
     }

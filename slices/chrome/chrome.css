@@ -175,3 +175,36 @@
   height: 100%; color: var(--ink-3); font-family: var(--font-mono); font-size: 12px;
   letter-spacing: 0.06em; text-transform: uppercase;
 }
+
+/* ============ Mobile (≤700px) ============ */
+@media (max-width: 700px) {
+  .em-chrome-head {
+    padding: 16px 16px 10px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  .em-chrome-title { font-size: 22px; }
+  .em-chrome-sub { font-size: 12px; }
+  .em-chrome-meta {
+    flex-direction: row;
+    align-items: baseline;
+    gap: 10px;
+    width: 100%;
+  }
+  .em-chrome-count { font-size: 10px; }
+  .em-chrome-slicename { font-size: 16px; }
+  .em-chrome-source { margin-top: 4px; }
+
+  .em-chrome-controls {
+    padding: 10px 14px;
+    gap: 10px;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .em-lane-row { gap: 6px; }
+  .em-transport { justify-content: flex-start; }
+  .em-scrub { min-width: 0; max-width: none; }
+  /* Hide tick labels — bar + thumb are still usable */
+  .em-scrub-ticks { display: none; }
+}

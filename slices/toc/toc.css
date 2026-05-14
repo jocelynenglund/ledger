@@ -6,6 +6,9 @@
   overflow-y: auto;
   display: flex; flex-direction: column; gap: 8px;
 }
+
+/* Mobile-only toggle: hidden by default */
+.dir-d-toc-mobiletoggle { display: none; }
 .dir-d-toc-head {
   display: flex; align-items: center; justify-content: space-between;
   padding: 0 4px 4px 8px;
@@ -119,3 +122,47 @@
 }
 .dir-d-toc-slice-type.is-state-change { background: #6b8aa6; }
 .dir-d-toc-slice-type.is-state-view { background: #5a7058; }
+
+/* ============ Mobile (≤700px) ============ */
+@media (max-width: 700px) {
+  .dir-d-toc {
+    border-right: 0;
+    border-bottom: 1px solid var(--rule);
+    padding: 0;
+    gap: 0;
+  }
+  .dir-d-toc-mobiletoggle {
+    display: flex; align-items: center; gap: 10px;
+    width: 100%;
+    background: var(--bg-raised);
+    border: 0; border-bottom: 1px solid var(--rule);
+    padding: 12px 16px;
+    font-family: var(--font-mono);
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .dir-d-toc-mobiletoggle-label {
+    font-size: 11px; letter-spacing: 0.12em;
+    text-transform: uppercase; font-weight: 600;
+  }
+  .dir-d-toc-mobiletoggle-count {
+    font-size: 10px; color: var(--ink-3); letter-spacing: 0.06em;
+  }
+  .dir-d-toc-mobiletoggle-chev {
+    margin-left: auto;
+    color: var(--ink-3);
+    transition: transform 160ms var(--ease-out);
+  }
+  .dir-d-toc.is-mobile-open .dir-d-toc-mobiletoggle-chev {
+    transform: rotate(180deg);
+  }
+
+  /* Body of the TOC is hidden until toggled */
+  .dir-d-toc-head,
+  .dir-d-toc-list {
+    display: none;
+    padding-left: 14px; padding-right: 14px;
+  }
+  .dir-d-toc.is-mobile-open .dir-d-toc-head { display: flex; padding-top: 12px; }
+  .dir-d-toc.is-mobile-open .dir-d-toc-list { display: flex; padding-bottom: 12px; }
+}
