@@ -103,16 +103,43 @@
 
     function buildControls(model) {
       const lanes = model.lanes || [];
+      const types = model.laneTypes || {};
       const total = model.slices.length;
+
+      // Group lanes by row type when type info is available; preserve original
+      // order within each group. If no types are known we render a flat row.
+      const TYPE_ORDER = ['actor', 'interaction', 'swimlane'];
+      const TYPE_LABEL = { actor: 'actors', interaction: 'interaction', swimlane: 'swimlanes' };
 
       const chipRow = h('div', { class: 'em-lane-row' },
         h('span', { class: 'em-label' }, 'lanes'),
-        ...lanes.map(lane => h('button', {
-          class: 'em-chip is-on',
+      );
+
+      const hasTypeInfo = lanes.some(l => types[l]);
+      if (!hasTypeInfo) {
+        lanes.forEach(lane => chipRow.appendChild(makeChip(lane)));
+      } else {
+        const grouped = {};
+        lanes.forEach(lane => {
+          const t = types[lane] || 'other';
+          (grouped[t] ||= []).push(lane);
+        });
+        const order = [...TYPE_ORDER, ...Object.keys(grouped).filter(t => !TYPE_ORDER.includes(t))];
+        order.forEach((t, i) => {
+          const group = grouped[t]; if (!group?.length) return;
+          if (chipRow.childElementCount > 1) chipRow.appendChild(h('span', { class: 'em-lane-sep' }));
+          chipRow.appendChild(h('span', { class: 'em-lane-grouplabel' }, TYPE_LABEL[t] || t));
+          group.forEach(lane => chipRow.appendChild(makeChip(lane, t)));
+        });
+      }
+
+      function makeChip(lane, type) {
+        return h('button', {
+          class: 'em-chip is-on' + (type ? ' is-type-' + type : ''),
           'data-lane': lane,
           onclick: () => window.STORE.toggleLane(lane),
-        }, h('span', { class: 'em-chip-dot' }), lane)),
-      );
+        }, h('span', { class: 'em-chip-dot' }), lane);
+      }
 
       const range = h('input', {
         type: 'range', min: 0, max: Math.max(0, total - 1), value: 0,

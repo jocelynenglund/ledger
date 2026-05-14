@@ -62,6 +62,7 @@
   function normalizeBoardFormat(raw) {
     const boardIds = Object.keys(raw.boards || {});
     const allSlices = [];
+    const laneTypeByLabel = {};   // label -> 'actor' | 'interaction' | 'swimlane'
     let primaryContext = null;
 
     boardIds.forEach((boardId, bIdx) => {
@@ -100,13 +101,17 @@
       // ---- Build node → row(lane) map from timelineData on chapter metadata.
       // Each chapter carries its own timelineData with rows (swimlanes) and
       // cells (nodeId → rowId). We merge cells across chapters; the row label
-      // becomes the element's lane.
+      // becomes the element's lane. We also track each label's row type
+      // (`actor` | `interaction` | `swimlane`) so chrome can group pills.
       const nodeToLane = {};
       Object.values(meta).forEach(m => {
         const td = m.meta?.timelineData;
         if (!td) return;
         const rowLabel = {};
-        (td.rows || []).forEach(r => { rowLabel[r.id] = r.label; });
+        (td.rows || []).forEach(r => {
+          rowLabel[r.id] = r.label;
+          if (r.type) (laneTypeByLabel[r.label] ||= r.type);
+        });
         (td.cells || []).forEach(c => {
           if (c.nodeId && rowLabel[c.rowId]) nodeToLane[c.nodeId] = rowLabel[c.rowId];
         });
@@ -281,7 +286,7 @@
     const ctx = boardIds.length > 1
       ? boardIds.map(id => raw.boards[id].name).join(' + ')
       : primaryContext || 'Untitled';
-    return finalize(allSlices, ctx, allSlices[0]?.chapter || '');
+    return finalize(allSlices, ctx, allSlices[0]?.chapter || '', laneTypeByLabel);
   }
 
   function kindFor(rawType) {
@@ -332,7 +337,7 @@
   }
 
   // ---------- Common ----------
-  function finalize(slices, context, chapter) {
+  function finalize(slices, context, chapter, laneTypes = {}) {
     // Re-tag indexes & build id index
     slices.forEach((s, i) => { s.index = i; s.specifications ||= []; });
 
@@ -365,7 +370,7 @@
       chapterMap[id].sliceIndices.push(s.index);
     });
 
-    return { context, chapter, slices, lanes: laneOrder, byId, chapters: chapterOrder };
+    return { context, chapter, slices, lanes: laneOrder, byId, chapters: chapterOrder, laneTypes };
   }
 
   function normalize(raw) {

@@ -105,6 +105,23 @@
 .em-chip:nth-of-type(4) .em-chip-dot { background: var(--rust); }
 .em-chip:nth-of-type(5) .em-chip-dot { background: var(--sage); }
 
+/* Type-specific dot colors override the nth-of-type fallback */
+.em-chip.is-type-actor       .em-chip-dot { background: var(--ink-2); }
+.em-chip.is-type-interaction .em-chip-dot { background: var(--sky); }
+.em-chip.is-type-swimlane    .em-chip-dot { background: var(--sage); }
+
+.em-lane-grouplabel {
+  font-family: var(--font-mono);
+  font-size: 9px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--ink-3);
+  padding: 0 2px;
+}
+.em-lane-sep {
+  width: 1px; height: 14px;
+  background: var(--rule);
+  margin: 0 2px;
+}
+
 .em-transport {
   display: flex; align-items: center; gap: 8px;
   flex: 1; min-width: 0; justify-content: flex-end;
