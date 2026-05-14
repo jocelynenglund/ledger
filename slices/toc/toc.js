@@ -18,7 +18,7 @@
     function render(state) {
       const { model, activeIndex } = state;
 
-      if (!model || !model.chapters || model.chapters.length <= 1) {
+      if (!model || !model.chapters || model.chapters.length === 0) {
         root.style.display = 'none';
         lastModel = model;
         return;
@@ -27,7 +27,11 @@
       if (model !== lastModel) {
         clear(root);
         root.style.display = '';
-        openChapters = new Set();   // reset on model swap
+        // Single-chapter models: pre-open the lone chapter so the TOC acts
+        // as a slice index instead of an opaque collapsed header.
+        openChapters = model.chapters.length === 1
+          ? new Set([model.chapters[0].id])
+          : new Set();
 
         const head = h('div', { class: 'dir-d-toc-head' },
           h('div', { class: 'dir-d-toc-eyebrow' }, 'contents'),

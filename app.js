@@ -24,7 +24,7 @@
         slot.appendChild(shell);
       }
       const state = window.STORE.get();
-      const hasToc = state.model?.chapters?.length > 1;
+      const hasToc = (state.model?.chapters?.length || 0) >= 1;
       shell.classList.toggle('no-toc', !hasToc);
     }
 
