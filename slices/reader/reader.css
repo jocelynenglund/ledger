@@ -58,10 +58,24 @@
   }
   /* TOC and reader stack vertically; TOC self-collapses via toc.css */
   .dir-d-toc-mount { min-height: auto; }
-  .dir-d-doc { padding: 18px 18px 64px; }
-  .dir-d-section-title { font-size: 28px; }
-  .dir-d-title { font-size: 22px; }
-  .dir-d-sentence { font-size: 16px; }
-  .dir-d-chapter { grid-template-columns: 40px 1fr; gap: 10px; padding: 20px 0; }
-  .dir-d-num-n { font-size: 24px; }
+  .dir-d-doc { padding: 14px 12px 64px; }
+  .dir-d-section-title { font-size: 26px; }
+  .dir-d-title { font-size: 21px; }
+  .dir-d-sentence { font-size: 15px; }
+
+  /* Drop the side-gutter number on mobile: put the slice number inline
+     above the title instead. Saves ~40px of fixed left offset. */
+  .dir-d-chapter {
+    grid-template-columns: 1fr;
+    gap: 4px;
+    padding: 18px 0;
+  }
+  .dir-d-num {
+    flex-direction: row;
+    align-items: baseline;
+    gap: 8px;
+    padding-top: 0;
+  }
+  .dir-d-num-n { font-size: 18px; }
+  .dir-d-num-rule { display: none; }
 }
